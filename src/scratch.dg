@@ -1,0 +1,10 @@
+
+(#marcus is-sibling-of #ulrike)
+(#ulrich is-father-of #ulrike)
+
+($1 is-sibling-of $2)
+  ($2 is-sibling-of $1)
+
+($1 is-father-of $2)
+   ($1 is-father-of $3)
+   ($2 is-sibling-of $3)

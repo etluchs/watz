@@ -1,0 +1,156 @@
+
+(name #sofa) sofa covered in blankets
+(descr #sofa) It's a comfy, albeit slightly worn, couch covered in ancient blankets meant, apparently,
+             to keep its never-revealed surface pristine.
+    (if) ($a is #on #sofa)(cat $a) (then)
+     It seems to be occupied by a furry cat.
+    (endif)
+(#sofa is #in #living-room)
+(on-seat #sofa)
+(appearance #sofa) You notice a sofa, placed in the middle of the room.
+
+#watz
+(name *) Watz
+(proper *)
+(descr *) Panniwatz, aka "the Watz" is a small tabby cat with a white -- and rather extensive -- belly.
+    (line)
+    It's spotted yellow eyes look at you expectantly
+(* is #on #sofa)
+(animate *)
+(item *)
+(cat *)
+(watz *)
+%% Interaction with the Watz:
+(perform [push *])
+   (let #watz go #north)
+   (let #watz go #northwest)
+
+(narrate #watz leaving #living-room #north to $)
+   With an exasperated hiss Watz wiggles and speeds away at an astounding pace,
+   given how neatly it fills its furry coat.
+   It vanishes behind a curtain to the north. Shortly thereafter, you hear the sound of a cat-flap. A stream of cold and slightly smelly air hits you.
+
+(narrate taking $c)
+  (cat $c)
+  As you pick up (name $c) carefully, it curls its tail around your neck and stamps its paws rythmically onto your chest.
+
+(perform [throw #ball at #watz])
+   Watz deftly avoids the ball, runs around the room and jumps onto the sofa.
+  (let #watz climb #sofa)
+
+(narrate #watz climbing #sofa)
+
+#ball
+(name *) ball
+(item *)
+(#ball is #in #living-room)
+
+#living-room
+(room *)
+(name *) living room
+
+(look *) A small living room crammed with plants, rugs and a somewhat chance selection of furniture.
+  (par) Various garments and random things
+  (if) (#ball is pristine) (then)
+    such as a small green ball
+  (endif)
+  are strewn all over the place.
+  A sofa stands opposite to the large glass door with a view of the garden.
+
+  (if) ($a is #in *)(animate $a) (then)
+    (line)
+    (name $a) lingers in the (name *)
+  (endif)
+
+(from * go #north to #hallway)
+
+#hallway
+(room *)
+(name *) hallway
+(look *) A small hallway. The stairway to the west is halfway blocked by a flimsy wardrobe
+    overloaden with jackets, coats and various other garments.
+    to the north-west there is a darkish-brown door with a cat-flap.
+
+(from * go #south to #living-room)
+(from * go #northwest to #basement)
+
+(narrate walking #northwest) Behind the door with the cat flap, you climb down a steep stairway. The foul smell intensifies with another gust of icy air.
+
+#basement
+(room *)
+(name *) basement
+(look *) The houses small, damp basement smells musty. The white paint shows brownish stains and peels off in some places. There are mice rumored to live behind the shelves packed with ceramic.
+(from * go #southeast to #hallway)
+
+(narrate walking #southeast) On your way up you notice a small basket with curious fossils, one a sea urchin skeleton.
+ On the other side of the stairwell you see a big kitchen knife, half concealed behind a windowpane.
+
+#cat-food
+(item *)
+(name *) cat-food
+(edible *)
+(* is #in #basement)
+(appearance *) You see a huge box with all kinds of cat food.
+(dict *) food
+
+(perform [give #cat-food to #watz])
+  As you open the packaging, watz' expectant stare intensifies and is accompanied by
+    intense purring. (line) As soon as you are done with the box, it darts forward and devours the food.
+
+(after [give #cat-food to #watz])
+   (now) (#watz is eating)
+   (try [eat #cat-food])  %% just to make it disappear :-/
+(narrate eating #cat-food)
+
+#shelf
+(name *) shelf
+(on-seat #shelf)
+(descr *) A shelf laden with dusty ceramics. Entire tea sets, vases, sculptures: you name it. If it is ceramic, it is there.
+  Suddenly you hear a high squeaking noice from the bottom of the shelf, right under a moldy box with abandoned childhood drawings.
+     And there you see it a gray shadow flitting about.
+(#shelf is #in #basement)
+
+#mouse
+(item *)
+(name *) mouse
+(animate *)
+(#mouse is #under #shelf)
+(descr *)  A tiny greyish brown mouse looks up at you. It's whiskers quivering slightly, but otherwise undisturbed by
+  the cat only sitting mere feet apart from it gouging down it's food with great delight.
+(narrate taking #mouse) You strike lightning fast, seizing the tiny animal.
+  It wriggles in your grip like a madmouse and you have trouble holding onto it.
+
+
+(perform [throw #mouse at #watz])
+  (if) (#watz is eating) (then)
+    Watz turns her head towards you with a look of utter disdain at being interrupted
+    during her meal. The mouse goes wholly ignored and escapes through an open window.
+    (else)
+    Watz deftly avoids the mouse.
+  (endif)
+
+#basement-window
+(name *) basement window
+(item *)
+(descr *)  One of the window panes is missing and you recognize it as the souce of the freezing torrents tormenting your
+  bare face. Outside you can see a wild flower patch and a little back yard filled with potted plants gone wild, a felled
+   tree trunk and curiously enough a decaying drinking trough. It is quite the opposite of the english lawn cultivated by
+   the neighbours, which you can see faintly behind the fence.
+(#basement-window is #in #basement)
+
+
+
+
+
+
+(current player #player)
+(#player is #in #living-room)
+
+(dict (cat $)) cat
+(dict (watz $)) watz
+
+(understand [feed | $Words] as [give $Food to $Animal])
+   *(split $Words by [with] into $Left $Right)
+   *(understand $Right as single object $Food preferably held)
+   *(understand $Left as object $Animal)
+(understand [feed] as [give #cat-food to #watz])
